@@ -1,3 +1,4 @@
+import sys
 import cv2
 import numpy as np
 
@@ -11,9 +12,15 @@ np.random.seed(1)
 w = np.random.randn(3, 3072)
 b = np.random.randn(3)
 
-# Load image, resize it (ignoring the aspect ratio) and flatten it
-original = cv2.imread('beagle.png')
-image = cv2.resize(original, (32, 32)).flatten()
+try:
+    # Load image, resize it (ignoring the aspect ratio) and flatten it
+    original = cv2.imread('beagle.png')
+    # Remember that in the previous example knn in order to flatten the image we used: data.reshape((data.shape[0], 3072))
+    image = cv2.resize(original, (32, 32)).flatten()
+except(cv2.error):
+    print("Tthe image is either bad or doesn't exist.")
+    sys.exit()
+    
 
 # Compute the output scores
 scores = w.dot(image) + b
